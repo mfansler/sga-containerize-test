@@ -1,0 +1,27 @@
+name: Snakemake Containerize
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Snakemake:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Snakemake dry run
+        uses: snakemake/snakemake-github-action@v1.23.0
+        with:
+          directory: '.'
+          args: '-np'
+
+      - name: Create container file
+        uses: snakemake/snakemake-github-action@v1.23.0
+        with:
+          directory: '.'
+          task: 'containerize'
+      
+      - name: Print Dockerfile
+        run: |
+          cat Dockerfile
